@@ -11,12 +11,12 @@ const AddMovieForm = (props) => {
 	useEffect(() => {
 		axios.get(`http://localhost:5000/api/movies/${id}`)
 		.then(res => {
-			setMovie(res.data);
+			setNewMovie(res.data);
 		})
 		.catch(err => console.log(err));
 	}, [])
 
-	const [movie, setMovie] = useState({
+	const [newMovie, setNewMovie] = useState({
 		title:"",
 		director: "",
 		genre: "",
@@ -25,8 +25,8 @@ const AddMovieForm = (props) => {
 	});
 	
 	const handleChange = (e) => {
-        setMovie({
-            ...movie,
+        setNewMovie({
+            ...newMovie,
             [e.target.name]: e.target.value
         });
     }
@@ -34,23 +34,23 @@ const AddMovieForm = (props) => {
     const handleSubmit = (e) => {
 		e.preventDefault();
 
-		axios.post(`http://localhost:5000/api/movies/${ movie.id }`)
+		axios.post(`http://localhost:5000/api/movies`, newMovie)
 		.then(res => {
-			props.setMovies(res.data);
+			setNewMovie(res.data);
             console.log(res.data)
 			push(`/movies`);
 		})
 		.catch(err => console.log(err));
 	}
 	
-	const { title, director, genre, metascore, description } = movie;
+	const { title, director, genre, metascore, description } = newMovie;
 
     return (
 	<div className="col">
 		<div className="modal-content">
 			<form onSubmit={handleSubmit}>
 				<div className="modal-header">						
-					<h4 className="modal-title">Add Movie <strong>{movie.title}</strong></h4>
+					<h4 className="modal-title">Add Movie <strong>{newMovie.title}</strong></h4>
 				</div>
 				<div className="modal-body">					
 					<div className="form-group">
